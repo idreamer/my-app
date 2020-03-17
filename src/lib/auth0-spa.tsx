@@ -1,5 +1,6 @@
 import * as React from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
+import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client"
 import { useRouter } from 'next/router'
 import { NextPage } from 'next'
 
@@ -38,9 +39,10 @@ export const Auth0Provider: React.FunctionComponent<Auth0ProviderProps> = ({
   clientId,
   redirectUri
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState()
+  console.log(`domain: ${domain} clientId: ${clientId} redirectUri: ${redirectUri}`)
+  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false)
   const [user, setUser] = React.useState()
-  const [auth0Client, setAuth0] = React.useState()
+  const [auth0Client, setAuth0] = React.useState<Auth0Client | null>(null)
   const [loading, setLoading] = React.useState(true)
   const [popupOpen, setPopupOpen] = React.useState(false)
 
@@ -51,8 +53,12 @@ export const Auth0Provider: React.FunctionComponent<Auth0ProviderProps> = ({
         client_id: clientId,
         redirect_uri: redirectUri
       })
-      setAuth0(auth0FromHook)
-
+      
+      if (auth0FromHook) {
+        console.log(`auth0fromhook: ${auth0FromHook}`)
+        setAuth0(auth0FromHook)
+      }
+    
       if (window.location.search.includes('code=')) {
         const { appState } = await auth0FromHook.handleRedirectCallback()
         onRedirectCallback(appState)
