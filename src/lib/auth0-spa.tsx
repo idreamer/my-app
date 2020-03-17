@@ -39,7 +39,6 @@ export const Auth0Provider: React.FunctionComponent<Auth0ProviderProps> = ({
   clientId,
   redirectUri
 }) => {
-  console.log(`domain: ${domain} clientId: ${clientId} redirectUri: ${redirectUri}`)
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false)
   const [user, setUser] = React.useState()
   const [auth0Client, setAuth0] = React.useState<Auth0Client | null>(null)
@@ -55,7 +54,6 @@ export const Auth0Provider: React.FunctionComponent<Auth0ProviderProps> = ({
       })
       
       if (auth0FromHook) {
-        console.log(`auth0fromhook: ${auth0FromHook}`)
         setAuth0(auth0FromHook)
       }
     
